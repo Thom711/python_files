@@ -1,12 +1,34 @@
+import os, shutil
+
 __winc_id__ = 'ae539110d03e49ea8738fd413ac44ba8'
 __human_name__ = 'files'
 
 def clear_cache():
-    """takes no arguments and creates an empty folder named cache in the current directory. 
-    If it already exists, it deletes everything in the cache folder."""
+    path = 'cache'
+    cache_exists = os.path.isdir('./cache')
+    
+    if cache_exists:
+        folder = './cache'
+
+        for file_name in os.listdir(folder):
+            file_path = os.path.join(folder, file_name)
+            
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_ath):
+                    shutil.rmtree(file_path)
+            except Exception as exception:
+                print('Failure to remove %s. Reason: %s' % (file_path, exception))
+    else:
+        try:
+            os.mkdir(path)
+        except OSError:
+            print('Failure to create directory %s.' % path)
 
 
 def cache_zip(zip_file_path: str, cache_dir_path: str):
+    #clear_cache()
     """ takes a zip file path (str) and a cache dir path (str) as arguments, in that order. 
     The function then unpacks the indicated zip file into a clean cache folder.
     You can test this with data.zip file."""
@@ -25,3 +47,4 @@ def find_password(file_paths: list):
 
 
 if __name__ == '__main__':
+    clear_cache()
