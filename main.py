@@ -38,9 +38,11 @@ def cache_zip(zip_file_path: str, cache_dir_path: str):
 
 
 def cached_files():
-    """takes no arguments and returns a list of all the files in the cache. The file paths 
-    should be specified in absolute terms. Search the web for what this means! No folders should be 
-    included in the list. You do not have to account for files within folders within the cache directory."""
+    directory = '/cache'
+
+    all_files = [os.path.abspath(f'cache/{f}') for f in os.listdir(directory)]
+
+    return all_files
 
 
 def find_password(file_paths: list):
@@ -51,3 +53,7 @@ def find_password(file_paths: list):
 
 if __name__ == '__main__':
     cache_zip('data.zip', 'cache')
+
+    file_paths = cached_files()
+
+    
