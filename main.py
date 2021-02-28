@@ -1,4 +1,5 @@
 import os, shutil
+import zipfile
 
 __winc_id__ = 'ae539110d03e49ea8738fd413ac44ba8'
 __human_name__ = 'files'
@@ -16,7 +17,7 @@ def clear_cache():
             try:
                 if os.path.isfile(file_path) or os.path.islink(file_path):
                     os.unlink(file_path)
-                elif os.path.isdir(file_ath):
+                elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as exception:
                 print('Failure to remove %s. Reason: %s' % (file_path, exception))
@@ -28,10 +29,12 @@ def clear_cache():
 
 
 def cache_zip(zip_file_path: str, cache_dir_path: str):
-    #clear_cache()
-    """ takes a zip file path (str) and a cache dir path (str) as arguments, in that order. 
-    The function then unpacks the indicated zip file into a clean cache folder.
-    You can test this with data.zip file."""
+    clear_cache()
+    is_a_zipfile = zipfile.is_zipfile(zip_file_path)
+
+    if is_a_zipfile:
+        with zipfile.ZipFile(zip_file_path, 'r') as zip_reference:
+            zip_reference.extractall(cache_dir_path)
 
 
 def cached_files():
@@ -47,4 +50,4 @@ def find_password(file_paths: list):
 
 
 if __name__ == '__main__':
-    clear_cache()
+    cache_zip('data.zip', 'cache')
